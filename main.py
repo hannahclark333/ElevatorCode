@@ -2,6 +2,9 @@
 Assumptions made: 
 1.) The elevator will go downward first, then upward.
 2.) The input is given in the form of space separated integers. 
+3.) That the input is overall valid, no character values are given.
+4.) Floor values are numbers 1 and above. Implemetation of basement levels would require the
+addition of either handling negatives or floors presented in the B# format.
 '''
 
 import sys
@@ -37,26 +40,58 @@ def elevator(start, floors) :
 
     floors_visited.append(start)
     current_floor = start
-    # travel downward
-    for floor in floors_below :
-        difference = current_floor - floor
-        total_time += (floor_travel_time * difference)
-        current_floor = floor
-        floors_visited.append(floor)
 
-    # travel upward
-    for floor in floors_above :
-        difference = floor - current_floor
-        total_time += (floor_travel_time * difference)
-        current_floor = floor
-        floors_visited.append(floor)
+    # Checks for type of call button pressed
+    # Although this is checked, the button type is not further implemeneted
+
+    if len(floors_below) == 0 and len(floors_above) == 0:
+        return total_time, start
+    
+    elif len(floors_below) == 0:
+        button_type = "up"
+
+        # travel upward
+        for floor in floors_above :
+            difference = floor - current_floor
+            total_time += (floor_travel_time * difference)
+            current_floor = floor
+            floors_visited.append(floor)
+            
+    elif len(floors_above) == 0:
+        button_type = "down"
+
+        # travel downward
+        for floor in floors_below :
+            difference = current_floor - floor
+            total_time += (floor_travel_time * difference)
+            current_floor = floor
+            floors_visited.append(floor)
+                
+    else:
+        button_type = "both"
+
+        # travel downward
+        for floor in floors_below :
+            difference = current_floor - floor
+            total_time += (floor_travel_time * difference)
+            current_floor = floor
+            floors_visited.append(floor)
+
+        # travel upward
+        for floor in floors_above :
+            difference = floor - current_floor
+            total_time += (floor_travel_time * difference)
+            current_floor = floor
+            floors_visited.append(floor)
     
     return total_time, floors_visited
 
 # function to perform time of elevator
 def elevator_with_button(start, floors, button) :
 
-    return start
+    # With further time for implementation after the button call is evaluated this function
+    # Could be further developed to reduce the number of iterations and repetition of code
+    return button
 
 
 if __name__ == '__main__':
